@@ -1,0 +1,60 @@
+{
+	"name": "viscosebenchmarks",
+	"private": true,
+	"version": "1.0.1",
+	"description": "Viscose Benchmarks Tracker - High performance aim tracking suite",
+	"author": "kylebsingh",
+	"type": "module",
+	"main": "dist-electron/main.cjs",
+	"scripts": {
+		"dev": "concurrently \"vite dev\" \"sleep 2 && NODE_ENV=development electron .\"",
+		"build": "vite build && vite build --config vite.electron.config.ts",
+		"dist": "npm run build && electron-builder --publish always",
+		"preview": "vite preview",
+		"prepare": "svelte-kit sync || echo ''",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-auto": "^7.0.1",
+		"@sveltejs/adapter-static": "^3.0.10",
+		"@sveltejs/kit": "^2.57.0",
+		"@sveltejs/vite-plugin-svelte": "^7.0.0",
+		"cheerio": "^1.2.0",
+		"concurrently": "^9.2.1",
+		"electron": "^32.0.0",
+		"electron-builder": "^26.8.1",
+		"kovaaks-api-client": "^0.2.4",
+		"svelte": "^5.55.2",
+		"svelte-check": "^4.4.6",
+		"typescript": "^6.0.2",
+		"vite": "^8.0.7"
+	},
+	"engines": { "node": ">=22 <23" },
+	"dependencies": {},
+	"build": {
+		"appId": "com.kylebsingh.viscosebenchmarks",
+		"productName": "Viscose Benchmarks",
+		"asar": true,
+		"npmRebuild": false,
+		"beforeBuild": "scripts/skip-rebuild.cjs",
+		"directories": {
+			"output": "release"
+		},
+		"files": [
+			"build/**/*",
+			"dist-electron/**/*",
+			"package.json"
+		],
+		"win": {
+			"target": "nsis"
+		},
+		"linux": {
+			"target": "AppImage"
+		},
+		"mac": {
+			"target": "dmg",
+			"category": "public.app-category.games"
+		}
+	}
+}
